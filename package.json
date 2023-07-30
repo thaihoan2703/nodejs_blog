@@ -1,0 +1,32 @@
+{
+  "name": "blog",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon --inspect index.js",
+    "test": "https://github.com/thaihoan2703/nodejs_blog.git"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thaihoan2703/nodejs_blog.git"
+  },
+  "keywords": [
+    "thai",
+    "hoan",
+    "blog",
+    "nodejs"
+  ],
+  "author": "thai hoan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thaihoan2703/nodejs_blog/issues"
+  },
+  "homepage": "https://github.com/thaihoan2703/nodejs_blog#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
