@@ -2,3 +2,9 @@
 h1 {
     color: $red-color;
 }
+.card-text{
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    display: -webkit-box;
+}
