@@ -5,12 +5,14 @@ const morgan = require("morgan");
 
 const route = require("./routes");
 const db = require("./config/db");
+const app = express();
+const port = 3000;
+
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 //Connect to DB
 db.connect();
-
-const app = express();
-const port = 3000;
 
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -23,7 +25,6 @@ app.set("view engine", "hbs");
 app.set("views", path.join(__dirname, "resources", "views"));
 
 // Routes
-
 route(app);
 
 app.listen(port, () => {
