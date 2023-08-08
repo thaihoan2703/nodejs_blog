@@ -16,9 +16,6 @@ class MeController {
             )
             .catch(next);
     }
-
-    //[POST] /me/:id/edit
-    edit(req, res, next) {}
 }
 
 module.exports = new MeController();
