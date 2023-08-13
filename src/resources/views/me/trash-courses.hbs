@@ -1,6 +1,20 @@
-<div class="mt-4">
+<form class="mt-4" name="container-form" method="POST" action="/courses/handle-form-actions">
   <a class="back-icon ml-auto" href="/me/stored/courses"><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></a>
   <h2>My list deleted courses</h2>
+  <div class="mt-4  d-flex align-items-center">
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" value="" id="checkbox-all" />
+      <label class="form-check-label" for="checkbox-all">Select all</label>
+    </div>
+
+    <select class="form-select form-control-sm checkbox-select-all-options" name="action" required aria-label="Default select example">
+      <option selected value="">--- Action ---</option>
+      <option value="restore">Restore</option>
+      <option value="force-delete">Delete</option>
+      
+    </select>
+    <button class="btn btn-primary btn-sm check-all-submit-btn disabled">Submit</button>
+  </div>
   <table class="table">
     <thead>
       <tr>
@@ -8,12 +22,18 @@
         <th scope="col">Title</th>
         <th scope="col">Level</th>
         <th scope="col">Delete at</th>
-        <td></td>
+        <td colspan="2"></td>
       </tr>
     </thead>
     <tbody>
       {{#each courses}}
       <tr>
+        <td>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="courseIds[]" value="{{this._id}}" id="" />
+            
+          </div>
+        </td>
         <th scope="row">{{sum @index 1}}</th>
         <td>{{this.name}}</td>
         <td>{{this.level}}</td>
@@ -33,7 +53,7 @@
       {{/each}}
     </tbody>
   </table>
-</div>
+</form>
 
 <!-- Modal -->
 <div class="modal fade" id="delete-course-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -67,6 +87,10 @@
     var courseId ;
     var deleteForm = document.getElementById("delete-form-course")
     var restoreForm = document.getElementById("restore-form-course")
+    var containerForm = document.forms['container-form']
+    var checkboxAll = $("#checkbox-all")
+    var courseItemCheckbox = $('input[name="courseIds[]"]')
+    var checkAllSubmitBtn = $('.check-all-submit-btn')
 
     //when dialog confirm clicked
     deleteCourseModal.addEventListener('show.bs.modal', function (event) {
@@ -74,6 +98,7 @@
       courseId = button.getAttribute("data-id")
     })
 
+    //when delete course btn clicked
     btnDeleteCourse.onclick = function() {
       deleteForm.action = "/courses/" + courseId + "/force?_method=DELETE"
       deleteForm.submit();
@@ -87,5 +112,37 @@
         restoreForm.submit();
       })
     })
+
+    //Checkbox all clicked
+    checkboxAll.on("change", function() {
+      var isCheckedAll = ($(this).prop("checked"));
+      courseItemCheckbox.prop('checked', isCheckedAll)
+      renderCheckAllSubmitBtn()
+    })
+
+    //Checkbox item changed
+    courseItemCheckbox.change(function(){
+      var isCheckAll = courseItemCheckbox.length === $('input[name="courseIds[]"]:checked').length;
+      checkboxAll.prop('checked', isCheckAll)
+      renderCheckAllSubmitBtn()
+    })
+
+    //Check all submit button clicked
+    checkAllSubmitBtn.on("submit", function(e){
+      var isSubmitable = !$(this).hasClass('disabled')
+      if(!isSubmitable){
+        e.preventDefault();
+      }
+    })
+
+    //Re-render check all submit
+    function renderCheckAllSubmitBtn() {
+      var checkCount = $('input[name="courseIds[]"]:checked').length;
+      if (checkCount > 0) {
+        checkAllSubmitBtn.removeClass('disabled')
+      }else{
+        checkAllSubmitBtn.addClass('disabled')
+      }
+    }
   })
 </script>
