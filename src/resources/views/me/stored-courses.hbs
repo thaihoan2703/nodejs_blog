@@ -25,9 +25,25 @@
     <thead>
       <tr>
         <th scope="col">#</th>
-        <th scope="col">Title</th>
-        <th scope="col">Level</th>
-        <th scope="col">Create at</th>
+        <th colspan="1"></th>
+        <th scope="col">
+          Title 
+          <a href="?_sort&column=name&type=desc">
+            {{{sortable 'name' _sort}}}
+          </a>
+        </th>
+        <th scope="col">
+          Level
+          <a href="?_sort&column=name&type=desc">
+            {{{sortable 'level' _sort}}}
+          </a>
+          </th>
+        <th scope="col">
+          Create at
+          <a href="?_sort&column=name&type=desc">
+            {{{sortable 'createAt' _sort}}}
+          </a>
+        </th>
         <td colspan="2"></td>
       </tr>
     </thead>
